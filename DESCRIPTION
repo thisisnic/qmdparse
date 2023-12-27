@@ -1,0 +1,12 @@
+Package: qmdparse
+Title: A simple package to parse qmd files.
+Version: 0.0.0.9000
+Authors@R: 
+    person("Nic", "Crane", , "thisisnic@gmail.com", role = c("aut", "cre"))
+Description: Parses `.qmd` files as simply as possible.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+Imports: 
+    purrr
