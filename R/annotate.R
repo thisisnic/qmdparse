@@ -46,11 +46,19 @@ annotate_top_level <- function(file_contents){
 #' @return tibble with start, end, and type columns
 summarise_annotations <- function(annotations){
   run_lengths <- rle(annotations)
-  end = cumsum(run_lengths$lengths)
-  start = c(1, lag(end)[-1] + 1)
-  sections <- tibble::tibble(start = start, end = end)
-  sections$type <- annotations[sections$start]
-  sections
+  end <- cumsum(run_lengths$lengths)
+
+  # If the last index isn't the end of the file we need to go up to it
+  if(end[length(end)] < length(annotations)){
+    end <- c(end, length(annotations))
+  }
+
+  start <- c(1, lag(end) + 1)
+  start <- start[-length(start)]
+  types <- annotations[start]
+  lapply(seq_along(types), function(i){
+    new_section(types[i], start[i], end[i])
+  })
 }
 
 

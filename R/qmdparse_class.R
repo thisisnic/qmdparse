@@ -21,25 +21,29 @@ qmdparse_doc <- R6Class(
   public = list(
     initialize = function(path) {
       private$path <- path
-      private$type <- get_type(path)
+      private$type <- get_doc_type(path)
       private$doc_contents <- readLines(path)
+
+    },
+    get_doc_contents = function(){
+      private$doc_contents
     }
   ),
   private = list(
     path = NULL,
-    private$doc_contents = NULL,
+    doc_contents = NULL,
     type = NULL
   )
 )
 
 
-get_type <- function(path){
+get_doc_type <- function(path){
   if(grepl("\\.rmd$", path, ignore.case = TRUE)){
     "rmd"
   } else if(grepl("\\.qmd$", path, ignore.case = TRUE)){
     "qmd"
   } else {
-    stop("Unknown file type")
+    rlang::abort("File type must be .Rmd or .qmd")
   }
 }
 
@@ -47,7 +51,16 @@ get_type <- function(path){
 qmdparse_block <- R6Class(
   "qmdparse_block",
   inherit = qmdparse_obj,
-  public = list()
+  public = list(
+    initialize = function(start, end){
+      private$start = start
+      private$end = end
+    }
+  ),
+  private = list(
+    start = NULL,
+    end = NULL
+  )
 )
 
 qmdparse_heading <- R6Class(
@@ -62,10 +75,38 @@ qmdparse_paragraph <- R6Class(
 
 qmdparse_code <- R6Class(
   "qmdparse_code",
-  inherit = qmdparse_obj
+  inherit = qmdparse_obj,
+  public = list(
+    initialize = function(start, end){
+      private$start = start
+      private$end = end
+    }
+  ),
+  private = list(
+    start = NULL,
+    end = NULL
+  )
 )
 
 qmdparse_yaml <- R6Class(
   "qmdparse_yaml",
-  inherit = qmdparse_obj
+  inherit = qmdparse_obj,
+  public = list(
+    initialize = function(start, end){
+      private$start = start
+      private$end = end
+    }
+  ),
+  private = list(
+    start = NULL,
+    end = NULL
+  )
 )
+
+new_section <- function(type, start, end){
+  switch(type,
+         "code" = qmdparse_code$new(start, end),
+         "yaml" = qmdparse_yaml$new(start, end),
+         "text" = qmdparse_block$new(start, end)
+  )
+}

@@ -103,4 +103,4 @@ is_named_section <- function(obj){
   !is.null(obj$name)
 }
 
-print_tree(test_object)
+# print_tree(test_object)

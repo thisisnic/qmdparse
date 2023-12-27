@@ -10,19 +10,16 @@ parse_non_code <- function(){
 
 }
 
+#' @export
 parse_qmd <- function(file){
-  file_contents <- readLines(file)
 
-  file_annotations <- annotate_top_level(file_contents)
-  top_level <- summarise_annotations(file_annotations)
-
+  parsed_doc <- qmdparse_doc$new(file)
 
   # TODO: parse code blocks
   # TODO: parse non-code blocks
 
-  top_level
+  parsed_doc
 }
 
 
 
-parse_qmd(file)

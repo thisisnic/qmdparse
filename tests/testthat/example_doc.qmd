@@ -1,0 +1,24 @@
+---
+title: "my document"
+format: html
+editor: visual
+---
+
+# Overview
+
+in this section, blah blah blah
+
+# h1 for the main body
+
+in this section, blah blah blah
+
+## a subsection
+
+this is a subsection, check me out!
+
+```{r}
+#| label: my_code
+#| eval: TRUE
+mean(mtcars$mpg)
+```
+
