@@ -64,3 +64,8 @@ qmdparse_code <- R6Class(
   "qmdparse_code",
   inherit = qmdparse_obj
 )
+
+qmdparse_yaml <- R6Class(
+  "qmdparse_yaml",
+  inherit = qmdparse_obj
+)

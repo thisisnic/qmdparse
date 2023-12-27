@@ -6,6 +6,8 @@ chars <- list(
   "j" = "\u251C"
 )
 
+#TODO: set this up as a hierarchical list of qmdparse objects
+
 test_object <- list(
   list(
     name = "my document",
@@ -53,6 +55,9 @@ test_object <- list(
     )
   )
 )
+
+
+
 
 
 print_tree <- function(obj, level = 0){
