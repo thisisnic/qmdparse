@@ -23,6 +23,7 @@ qmdparse_doc <- R6Class(
       private$path <- path
       private$type <- get_doc_type(path)
       private$doc_contents <- readLines(path)
+      private$set_children()
 
     },
     get_doc_contents = function(){
@@ -32,7 +33,11 @@ qmdparse_doc <- R6Class(
   private = list(
     path = NULL,
     doc_contents = NULL,
-    type = NULL
+    type = NULL,
+    set_children = function(){
+      tla = annotate_top_level(private$doc_contents)
+      private$children = extract_children(tla, private$doc_contents)
+    }
   )
 )
 
@@ -52,14 +57,21 @@ qmdparse_block <- R6Class(
   "qmdparse_block",
   inherit = qmdparse_obj,
   public = list(
-    initialize = function(start, end){
+    initialize = function(start, end, contents){
       private$start = start
       private$end = end
+      private$contents = contents
+      private$set_children()
     }
   ),
   private = list(
     start = NULL,
-    end = NULL
+    end = NULL,
+    contents = NULL,
+    set_children = function(){
+      block = annotate_block(private$contents, private$start, private$end)
+      private$children = extract_children(block, private$contents)
+    }
   )
 )
 
@@ -77,14 +89,16 @@ qmdparse_code <- R6Class(
   "qmdparse_code",
   inherit = qmdparse_obj,
   public = list(
-    initialize = function(start, end){
+    initialize = function(start, end, contents){
       private$start = start
       private$end = end
+      private$contents = contents
     }
   ),
   private = list(
     start = NULL,
-    end = NULL
+    end = NULL,
+    contents = NULL
   )
 )
 
@@ -92,21 +106,23 @@ qmdparse_yaml <- R6Class(
   "qmdparse_yaml",
   inherit = qmdparse_obj,
   public = list(
-    initialize = function(start, end){
+    initialize = function(start, end, contents){
       private$start = start
       private$end = end
+      private$contents = contents
     }
   ),
   private = list(
     start = NULL,
-    end = NULL
+    end = NULL,
+    contents = NULL
   )
 )
 
-new_section <- function(type, start, end){
+new_section <- function(type, start, end, contents){
   switch(type,
-         "code" = qmdparse_code$new(start, end),
-         "yaml" = qmdparse_yaml$new(start, end),
-         "text" = qmdparse_block$new(start, end)
+         "code" = qmdparse_code$new(start, end, contents),
+         "yaml" = qmdparse_yaml$new(start, end, contents),
+         "text" = qmdparse_block$new(start, end, contents)
   )
 }

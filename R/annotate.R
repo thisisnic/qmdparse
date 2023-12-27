@@ -44,7 +44,8 @@ annotate_top_level <- function(file_contents){
 #'
 #' @param annotations vector of annotations
 #' @return tibble with start, end, and type columns
-summarise_annotations <- function(annotations){
+extract_children <- function(annotations, file_contents){
+
   run_lengths <- rle(annotations)
   end <- cumsum(run_lengths$lengths)
 
@@ -57,8 +58,12 @@ summarise_annotations <- function(annotations){
   start <- start[-length(start)]
   types <- annotations[start]
   lapply(seq_along(types), function(i){
-    new_section(types[i], start[i], end[i])
+    new_section(types[i], start[i], end[i], contents = file_contents[start[i]:end[i]])
   })
+}
+
+annotate_block <- function(){
+
 }
 
 
