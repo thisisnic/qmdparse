@@ -14,7 +14,10 @@ qmdparse_obj <- R6Class(
     }
   ),
   private = list(
-    children = list()
+    children = list(),
+    start = NULL,
+    end = NULL,
+    contents = NULL
   )
 )
 
@@ -39,7 +42,6 @@ qmdparse_doc <- R6Class(
   ),
   private = list(
     path = NULL,
-    contents = NULL,
     type = NULL,
     set_children = function() {
       tla <- annotate_top_level(private$contents)
@@ -72,9 +74,6 @@ qmdparse_block <- R6Class(
     }
   ),
   private = list(
-    start = NULL,
-    end = NULL,
-    contents = NULL,
     set_children = function() {
       block <- annotate_block(private$contents)
       private$children <- extract_children(block, private$contents, private$start, private$end)
@@ -91,11 +90,6 @@ qmdparse_heading <- R6Class(
       private$end <- end
       private$contents <- contents
     }
-  ),
-  private = list(
-    start = NULL,
-    end = NULL,
-    contents = NULL
   )
 )
 
@@ -108,11 +102,6 @@ qmdparse_paragraph <- R6Class(
       private$end <- end
       private$contents <- contents
     }
-  ),
-  private = list(
-    start = NULL,
-    end = NULL,
-    contents = NULL
   )
 )
 
@@ -125,11 +114,6 @@ qmdparse_code <- R6Class(
       private$end <- end
       private$contents <- contents
     }
-  ),
-  private = list(
-    start = NULL,
-    end = NULL,
-    contents = NULL
   )
 )
 
@@ -142,11 +126,6 @@ qmdparse_yaml <- R6Class(
       private$end <- end
       private$contents <- contents
     }
-  ),
-  private = list(
-    start = NULL,
-    end = NULL,
-    contents = NULL
   )
 )
 
