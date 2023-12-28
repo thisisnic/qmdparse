@@ -78,25 +78,3 @@ annotate_block <- function(contents) {
   }
   block_annotations
 }
-
-
-annotate_text <- function(file_contents, sections) {
-  text_sections <- sections[sections$type == "text", ]
-
-  text_annotations <- list()
-
-  map2(text_sections$start, text_sections$end, function(start, end) {
-    for (i in start:end) {
-      line <- file_contents[i]
-      if (grepl("^#", line)) {
-        text_annotations[length(text_annotations) + 1] <- list(line = i, type = "header")
-      } else if (line == "") {
-        text_annotations[length(text_annotations) + 1] <- list(line = i, type = "blank")
-      } else {
-        text_annotations[length(text_annotations) + 1] <- list(line = i, type = "text")
-      }
-    }
-  })
-
-  text_annotations
-}
