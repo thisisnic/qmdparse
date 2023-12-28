@@ -11,13 +11,22 @@ qmdparse_obj <- R6Class(
     },
     get_child = function(i) {
       private$children[[i]]
+    },
+    initialize = function(start, end, contents) {
+      private$start <- start
+      private$end <- end
+      private$contents <- contents
+      private$set_children()
     }
   ),
   private = list(
     children = list(),
     start = NULL,
     end = NULL,
-    contents = NULL
+    contents = NULL,
+    set_children = function(){
+      NULL
+    }
   )
 )
 
@@ -65,14 +74,6 @@ get_doc_type <- function(path) {
 qmdparse_block <- R6Class(
   "qmdparse_block",
   inherit = qmdparse_obj,
-  public = list(
-    initialize = function(start, end, contents) {
-      private$start <- start
-      private$end <- end
-      private$contents <- contents
-      private$set_children()
-    }
-  ),
   private = list(
     set_children = function() {
       block <- annotate_block(private$contents)
@@ -85,11 +86,7 @@ qmdparse_heading <- R6Class(
   "qmdparse_heading",
   inherit = qmdparse_obj,
   public = list(
-    initialize = function(start, end, contents) {
-      private$start <- start
-      private$end <- end
-      private$contents <- contents
-    }
+
   )
 )
 
@@ -97,11 +94,7 @@ qmdparse_paragraph <- R6Class(
   "qmdparse_paragraph",
   inherit = qmdparse_obj,
   public = list(
-    initialize = function(start, end, contents) {
-      private$start <- start
-      private$end <- end
-      private$contents <- contents
-    }
+
   )
 )
 
@@ -109,11 +102,7 @@ qmdparse_code <- R6Class(
   "qmdparse_code",
   inherit = qmdparse_obj,
   public = list(
-    initialize = function(start, end, contents) {
-      private$start <- start
-      private$end <- end
-      private$contents <- contents
-    }
+
   )
 )
 
@@ -121,11 +110,7 @@ qmdparse_yaml <- R6Class(
   "qmdparse_yaml",
   inherit = qmdparse_obj,
   public = list(
-    initialize = function(start, end, contents) {
-      private$start <- start
-      private$end <- end
-      private$contents <- contents
-    }
+
   )
 )
 
