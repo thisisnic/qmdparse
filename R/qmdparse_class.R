@@ -1,3 +1,4 @@
+library(R6)
 qmdparse <- function(path) {
   qmdparsedoc <- qmdparse_doc$new(path)
   qmdparsedoc
@@ -33,6 +34,7 @@ qmdparse_obj <- R6Class(
   )
 )
 
+#' @export
 `[[.qmdparse_obj` <- function(x, i) {
   x$get_child(i)
 }
