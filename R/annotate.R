@@ -12,6 +12,16 @@ annotate_top_level <- function(file_contents) {
   # TODO: I think what we actually want to do here is to create the relevant objects
   # as a list which is then returned from this function, instead of all the fuckery
   # with parsing things and counting gaps
+  #
+  # Basically, what we want to do at a generic level is pass in a list of contexts,
+  # which have names, signifiers, and a boolean signifying if they're encapsulated or not.
+  # They also should have an end_char property that by default is set to the start_char,
+  #  so we can do things like detect the end of a bulleted list
+  #
+  # If we are not in any context, we look for the start of one
+  # If we are in an encapsulated context (yaml/code), we look for the end
+  # If we are in an unencapsulated context (h1 heading), we look for the start of a new one
+
 
 
   for (i in seq_along(file_contents)) {
