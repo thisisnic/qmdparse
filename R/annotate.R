@@ -7,6 +7,12 @@ annotate_top_level <- function(file_contents) {
 
   code_context <- FALSE
   yaml_context <- FALSE
+  text_context <- FALSE
+
+  # TODO: I think what we actually want to do here is to create the relevant objects
+  # as a list which is then returned from this function, instead of all the fuckery
+  # with parsing things and counting gaps
+
 
   for (i in seq_along(file_contents)) {
     line <- file_contents[i]
@@ -36,6 +42,7 @@ annotate_top_level <- function(file_contents) {
       file_annotations[i] <- "text"
     }
   }
+
   file_annotations
 }
 
