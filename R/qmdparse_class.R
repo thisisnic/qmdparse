@@ -12,6 +12,9 @@ qmdparse_obj <- R6Class(
     get_child = function(i) {
       private$children[[i]]
     },
+    get_contents = function() {
+      private$contents
+    },
     initialize = function(start, end, contents) {
       private$start <- start
       private$end <- end
@@ -24,7 +27,7 @@ qmdparse_obj <- R6Class(
     start = NULL,
     end = NULL,
     contents = NULL,
-    set_children = function(){
+    set_children = function() {
       NULL
     }
   )
@@ -85,33 +88,25 @@ qmdparse_block <- R6Class(
 qmdparse_heading <- R6Class(
   "qmdparse_heading",
   inherit = qmdparse_obj,
-  public = list(
-
-  )
+  public = list()
 )
 
 qmdparse_paragraph <- R6Class(
   "qmdparse_paragraph",
   inherit = qmdparse_obj,
-  public = list(
-
-  )
+  public = list()
 )
 
 qmdparse_code <- R6Class(
   "qmdparse_code",
   inherit = qmdparse_obj,
-  public = list(
-
-  )
+  public = list()
 )
 
 qmdparse_yaml <- R6Class(
   "qmdparse_yaml",
   inherit = qmdparse_obj,
-  public = list(
-
-  )
+  public = list()
 )
 
 new_section <- function(type, start, end, contents) {
