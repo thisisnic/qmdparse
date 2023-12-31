@@ -130,6 +130,10 @@ parse_contents <- function(file_contents, offset = 0) {
     )
   }
 
+  names <- lapply(children, function(x) {
+    x$get_name()
+  })
+  names(children) <- names
   children
 }
 

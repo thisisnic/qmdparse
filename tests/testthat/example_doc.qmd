@@ -6,15 +6,16 @@ editor: visual
 
 # Overview
 
-in this section, blah blah blah
+In this document, I will talk about very little of meaning or merit.
 
-# h1 for the main body
+# My First Real Section
 
-in this section, blah blah blah
+This is where I tell you my grand idea!
 
-## a subsection
+## A Mere Subsection
 
-this is a subsection, check me out!
+While I merely am a subsection, I am mighty!
+I contain code and everything!
 
 ```{r}
 #| label: my_code

@@ -20,13 +20,17 @@ qmdparse_obj <- R6Class(
       private$start <- start
       private$end <- end
       private$contents <- contents
+    },
+    get_name = function() {
+      private$name
     }
   ),
   private = list(
     children = list(),
     start = NULL,
     end = NULL,
-    contents = NULL
+    contents = NULL,
+    name = ""
   )
 )
 
@@ -35,6 +39,10 @@ qmdparse_obj <- R6Class(
   x$get_child(i)
 }
 
+#' @export
+names.qmdparse_obj <- function(x) {
+  names(x$get_children())
+}
 
 qmdparse_doc <- R6Class(
   "qmdparse_doc",
