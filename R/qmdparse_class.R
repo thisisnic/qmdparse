@@ -4,6 +4,7 @@ qmdparse <- function(path) {
   qmdparsedoc
 }
 
+#' @export
 qmdparse_obj <- R6Class(
   "qmdparse_obj",
   public = list(
