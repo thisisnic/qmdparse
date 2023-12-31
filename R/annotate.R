@@ -2,12 +2,11 @@
 #'
 #' @param file_contents vector of file contents
 #' @return vector of annotations ("code", "yaml", or "text")
-annotate_top_level <- function(file_contents) {
-  file_annotations <- vector(mode = "character", length = length(file_contents))
-
+parse_contents <- function(file_contents, offset = 0) {
   code_context <- FALSE
   yaml_context <- FALSE
   text_context <- FALSE
+  heading_context <- FALSE
 
   # TODO: I think what we actually want to do here is to create the relevant objects
   # as a list which is then returned from this function, instead of all the fuckery
@@ -22,76 +21,133 @@ annotate_top_level <- function(file_contents) {
   # If we are in an encapsulated context (yaml/code), we look for the end
   # If we are in an unencapsulated context (h1 heading), we look for the start of a new one
 
-
+  children <- list()
+  current_context_start <- 1
+  current_heading_level <- 0
 
   for (i in seq_along(file_contents)) {
+    #browser()
     line <- file_contents[i]
 
-    if (code_context) {
-      file_annotations[i] <- "code"
-      if (grepl("^```", line)) {
-        code_context <- FALSE
-      }
-      # non-code context
-    } else if (yaml_context) {
-      # we are still in a yaml context
-      file_annotations[i] <- "yaml"
-      # if we find a "---", then we end the yaml context
-      if (grepl("^---", line)) {
-        yaml_context <- FALSE
-      }
-      # if we are not in a yaml context but detect the start of one
-    } else if (grepl("^---", line)) {
+    prev_text_context <- text_context
+    prev_heading_context <- heading_context
+    prev_context_start <- current_context_start
+    prev_heading_level <- current_heading_level
+
+    # create relevant object for yaml context
+    if (detect_yaml_context(line) && !yaml_context) {
       yaml_context <- TRUE
-      file_annotations[i] <- "yaml"
-      # if we are not in a code context but detect the start of one
-    } else if (grepl("^```", line)) {
+      text_context <- FALSE
+    } else if (detect_yaml_context(line) && yaml_context) {
+      yaml_context <- FALSE
+      children <- append(
+        children,
+        qmdparse_yaml$new(
+          current_context_start + offset,
+          i + offset,
+          file_contents[current_context_start:i]
+        )
+      )
+      current_context_start <- i + 1
+    } else if (yaml_context) {
+      next
+      # create relevant object for heading context
+    } else if (detect_heading_context(line)) {
+      text_context <- FALSE
+      heading_context <- TRUE
+      new_heading_level <- detect_heading_level(line)
+      # if we have a new heading, create an object for the previous one
+      if (new_heading_level == current_heading_level) {
+        children <- append(
+          children,
+          qmdparse_heading$new(
+            prev_context_start + offset,
+            i - 1 + offset,
+            file_contents[prev_context_start:i- 1], prev_heading_level
+          )
+        )
+        current_context_start <- i
+      }
+      if (prev_heading_level == 0 && new_heading_level > 0) {
+        current_heading_level <- new_heading_level
+      }
+      # create relevant object for code context
+    } else if (heading_context) {
+      next
+    } else if (detect_code_context(line) && !code_context) {
       code_context <- TRUE
-      file_annotations[i] <- "code"
+      text_context <- FALSE
+    } else if (detect_code_context(line) && code_context) {
+      code_context <- FALSE
+      children <- append(
+        children,
+        qmdparse_code$new(
+          current_context_start + offset,
+          i + offset,
+          file_contents[current_context_start:i]
+        )
+      )
+      current_context_start <- i + 1
+    } else if (code_context) {
+      next
     } else {
-      file_annotations[i] <- "text"
+      text_context <- TRUE
+    }
+
+    # If we've switched from text context to non-text context, create a text object
+    if (prev_text_context && !text_context) {
+      children <- append(
+        children,
+        qmdparse_text$new(
+          prev_context_start + offset,
+          i - 1 + offset,
+          file_contents[prev_context_start:i - 1]
+        )
+      )
+      current_context_start <- i
     }
   }
 
-  file_annotations
-}
-
-#' Summarise annotations
-#'
-#' @param annotations vector of annotations
-#' @return tibble with start, end, and type columns
-extract_children <- function(annotations, file_contents, start = 1, end = length(file_contents)) {
-  run_lengths <- rle(annotations)
-  end_indices <- cumsum(run_lengths$lengths) + (start - 1)
-
-  # If the last index isn't the end of the file we need to go up to it
-  if (end_indices[length(end_indices)] < end) {
-    end_indices <- c(end_indices, end)
-  }
-
-  start_indices <- c(start, lag(end_indices) + 1)
-  start_indices <- start_indices[-length(start_indices)]
-  types <- annotations[start_indices - (start - 1)]
-  lapply(seq_along(types), function(i) {
-    new_section(
-      types[i],
-      start_indices[i],
-      end_indices[i],
-      contents = file_contents[start_indices[i]:end_indices[i]]
+  # if we still have a chunk open, close it
+  if (heading_context && i == length(file_contents)) {
+    children <- append(
+      children,
+      qmdparse_heading$new(
+        prev_context_start + offset,
+        i + offset,
+        file_contents[prev_context_start:i],
+        prev_heading_level
+      )
     )
-  })
+  } else if (text_context && i == length(file_contents)) {
+    children <- append(
+      children,
+      qmdparse_text$new(
+        prev_context_start + offset,
+        i + offset,
+        file_contents[prev_context_start:i]
+      )
+    )
+  }
+
+  children
 }
 
-annotate_block <- function(contents) {
-  block_annotations <- vector(mode = "character", length = length(contents))
 
-  for (i in seq_along(contents)) {
-    line <- contents[i]
-    if (grepl("^#", line)) {
-      block_annotations[i] <- "heading"
-    } else {
-      block_annotations[i] <- "paragraph"
-    }
-  }
-  block_annotations
+
+detect_yaml_context <- function(line) {
+  grepl("^---", line)
+}
+
+detect_code_context <- function(line) {
+  grepl("^```", line)
+}
+
+detect_heading_context <- function(line) {
+  grepl("^#{1,6} ", line)
+}
+
+detect_heading_level <- function(line) {
+  out <- regexpr("^#{1,6} ", line)
+  attr(out, "match.length") - 1
 }

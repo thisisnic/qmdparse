@@ -20,17 +20,13 @@ qmdparse_obj <- R6Class(
       private$start <- start
       private$end <- end
       private$contents <- contents
-      private$set_children()
     }
   ),
   private = list(
     children = list(),
     start = NULL,
     end = NULL,
-    contents = NULL,
-    set_children = function() {
-      NULL
-    }
+    contents = NULL
   )
 )
 
@@ -58,8 +54,7 @@ qmdparse_doc <- R6Class(
     path = NULL,
     type = NULL,
     set_children = function() {
-      tla <- annotate_top_level(private$contents)
-      private$children <- extract_children(tla, private$contents)
+      private$children <- parse_contents(private$contents)
     }
   )
 )
@@ -75,23 +70,31 @@ get_doc_type <- function(path) {
   }
 }
 
-
-qmdparse_block <- R6Class(
-  "qmdparse_block",
+qmdparse_heading <- R6Class(
+  "qmdparse_heading",
   inherit = qmdparse_obj,
+  public = list(
+    initialize = function(start, end, contents, level) {
+      private$level = level
+      super$initialize(start, end, contents)
+      private$set_name()
+      private$set_children()
+    }
+  ),
   private = list(
+    level = NULL,
+    name = NA,
+    set_name = function(){
+      regex <- paste0("^#{", private$level, "} ", collapse = "")
+      private$name <- gsub(regex, "", private$contents[1])
+      private$contents <- private$contents[2:length(private$contents)]
+    },
     set_children = function() {
-      block <- annotate_block(private$contents)
-      private$children <- extract_children(block, private$contents, private$start, private$end)
+      private$children <- parse_contents(private$contents, offset = private$start)
     }
   )
 )
 
-qmdparse_heading <- R6Class(
-  "qmdparse_heading",
-  inherit = qmdparse_obj,
-  public = list()
-)
 
 qmdparse_paragraph <- R6Class(
   "qmdparse_paragraph",
@@ -111,11 +114,16 @@ qmdparse_yaml <- R6Class(
   public = list()
 )
 
+qmdparse_text <- R6Class(
+  "qmdparse_text",
+  inherit = qmdparse_obj,
+  public = list()
+)
+
 new_section <- function(type, start, end, contents) {
   switch(type,
     "code" = qmdparse_code$new(start, end, contents),
     "yaml" = qmdparse_yaml$new(start, end, contents),
-    "text" = qmdparse_block$new(start, end, contents),
     "heading" = qmdparse_heading$new(start, end, contents),
     "paragraph" = qmdparse_paragraph$new(start, end, contents)
   )
