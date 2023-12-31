@@ -11,7 +11,8 @@ RoxygenNote: 7.2.3
 Imports: 
     purrr,
     R6,
-    rlang
+    rlang,
+    yaml
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
