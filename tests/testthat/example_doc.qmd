@@ -22,4 +22,3 @@ I contain code and everything!
 #| eval: TRUE
 mean(mtcars$mpg)
 ```
-

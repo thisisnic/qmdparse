@@ -47,6 +47,16 @@ out[["My First Real Section"]][["A Mere Subsection"]]$get_contents()
 #>  [8] "mean(mtcars$mpg)"                            
 #>  [9] "```"                                         
 #> [10] "" 
-
+print_tree(out)
+#> .example_doc.qmd
+#>     ├──yaml section: my document
+#>     ├──text!
+#>     ├──h1: Overview
+#>         └──text!
+#>     └──h1: My First Real Section
+#>         ├──text!
+#>         └──h2: A Mere Subsection
+#>             ├──text!
+#>             └──code!
 ```
 

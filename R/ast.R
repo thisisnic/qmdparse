@@ -1,4 +1,3 @@
-
 chars <- list(
   "h" = "\u2500",
   "v" = "\u2502",
@@ -6,101 +5,65 @@ chars <- list(
   "j" = "\u251C"
 )
 
-#TODO: set this up as a hierarchical list of qmdparse objects
+print_tree <- function(obj, symbol = ".", level = 0) {
+  indent_level <- 2
+  indent_char <- paste(rep("  ", indent_level * level), collapse = "")
 
-test_object <- list(
-  list(
-    name = "my document",
-    type = "qmd_doc",
-    children = list(
-      list(
-        type = "h1_heading",
-        name = "Overview",
-        children = list(
-          list(
-            type = "paragraph",
-            contents = "in this section, blah blah blah",
-            children = list(
-              NULL
-            )
-          )
-        )
-      ),
-      list(
-        type = "h1_heading",
-        name = "h1 for the main body",
-        children = list(
-          list(
-            type = "paragraph",
-            contents = "in this section, blah blah blah",
-            children = list(NULL)
-          ),
-          list(
-            type = "h2_heading",
-            name = "a subsection",
-            children = list(
-              list(
-                type = "paragraph",
-                contents = "this is a subsection, check me out!",
-                children = list(NULL)
-              )
-            )
-          )
-        )
-      ),
-      list(
-        type = "code",
-        children = list(NULL)
-      )
-    )
-  )
-)
+  if (inherits(obj, "qmdparse_doc")) {
+    cat(indent_char)
+    cat(symbol)
+    cat(obj$get_name(), fill = TRUE)
+  }
 
+  if (inherits(obj, "qmdparse_heading")) {
+    cat(indent_char)
+    cat(symbol)
+    cat("h")
+    cat(obj$get_level())
+    cat(": ")
+    cat(obj$get_name(), fill = TRUE)
+  }
 
+  if (inherits(obj, "qmdparse_yaml")) {
+    cat(indent_char)
+    cat(symbol)
+    cat("yaml section: ")
+    cat(obj$get_name(), fill = TRUE)
+  }
 
+  if (inherits(obj, "qmdparse_code")) {
+    cat(indent_char)
+    cat(symbol)
+    cat("code!", fill = TRUE)
+  }
 
+  if (inherits(obj, "qmdparse_text")) {
+    cat(indent_char)
+    cat(symbol)
+    cat("text!", fill = TRUE)
+  }
 
-print_tree <- function(obj, level = 0){
+  to_parse <- obj$get_children()
 
-  indent_level <- 4
-  indent_char <- rep(" ", indent_level)
+  level <- level + 1
 
-  for(i in seq_along(obj)){
-    x <- obj[[i]]
-    if(!is.null(x)){
-
-      # If it's the last one we want the bendy corner symbol
-      if(i == length(obj)){
-        sym <- chars$l
-      # Otherwise we want the junction symbol
-      } else {
-        sym <- chars$j
-      }
-      cat(rep(indent_char, level))
-      cat(sym)
-      cat(paste(rep(chars$h, 2)), collapse = "", sep = "")
-      cat(x$type)
-      if(is_named_section(x)){
-        cat(": ")
-        cat(x$name)
-      }
-      cat("\n")
-
+  for (i in seq_along(to_parse)) {
+    if (i == length(to_parse)) {
+      symbol <- paste0(chars$l, paste0(rep(chars$h, 2), collapse = ""))
+    } else {
+      symbol <- paste0(chars$j, paste0(rep(chars$h, 2), collapse = ""))
     }
 
-    if(has_children(x)){
-      print_tree(x$children, level + 1)
-    }
+    child <- to_parse[[i]]
+    print_tree(child, symbol, level)
   }
 
 }
 
-has_children <- function(obj){
-  !is.null(obj$children)
+has_children <- function(obj) {
+  !is.null(obj$get_children())
 }
 
-is_named_section <- function(obj){
-  !is.null(obj$name)
+is_named_section <- function(obj) {
+  !is.na(obj$get_name())
 }
-
-# print_tree(test_object)

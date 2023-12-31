@@ -8,25 +8,11 @@ parse_contents <- function(file_contents, offset = 0) {
   text_context <- FALSE
   heading_context <- FALSE
 
-  # TODO: I think what we actually want to do here is to create the relevant objects
-  # as a list which is then returned from this function, instead of all the fuckery
-  # with parsing things and counting gaps
-  #
-  # Basically, what we want to do at a generic level is pass in a list of contexts,
-  # which have names, signifiers, and a boolean signifying if they're encapsulated or not.
-  # They also should have an end_char property that by default is set to the start_char,
-  #  so we can do things like detect the end of a bulleted list
-  #
-  # If we are not in any context, we look for the start of one
-  # If we are in an encapsulated context (yaml/code), we look for the end
-  # If we are in an unencapsulated context (h1 heading), we look for the start of a new one
-
   children <- list()
   current_context_start <- 1
   current_heading_level <- 0
 
   for (i in seq_along(file_contents)) {
-    #browser()
     line <- file_contents[i]
 
     prev_text_context <- text_context
@@ -63,7 +49,7 @@ parse_contents <- function(file_contents, offset = 0) {
           qmdparse_heading$new(
             prev_context_start + offset,
             i - 1 + offset,
-            file_contents[prev_context_start:i- 1], prev_heading_level
+            file_contents[prev_context_start:(i- 1)], prev_heading_level
           )
         )
         current_context_start <- i
@@ -136,8 +122,6 @@ parse_contents <- function(file_contents, offset = 0) {
   names(children) <- names
   children
 }
-
-
 
 detect_yaml_context <- function(line) {
   grepl("^---", line)
