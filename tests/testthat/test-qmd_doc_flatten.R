@@ -1,5 +1,5 @@
 test_that("qmd_doc_flatten extracts terminal components", {
-  out <- parse_qmd("tests/testthat/example_doc.qmd")
+  out <- parse_qmd("qmds/simple_doc.qmd")
   flattened_doc <- qmd_doc_flatten(out)
   expect_length(flattened_doc, 9)
 
@@ -12,13 +12,13 @@ test_that("qmd_doc_flatten extracts terminal components", {
 })
 
 test_that("qmd_doc_flatten output roundtrip", {
-  out <- parse_qmd("tests/testthat/example_doc.qmd")
+  out <- parse_qmd("qmds/simple_doc.qmd")
   flattened_doc <- qmd_doc_flatten(out)
   qmd_doc_components <- lapply(flattened_doc, function(x) x$get_contents())
 
   expect_equal(
     unlist(qmd_doc_components),
-    readLines("tests/testthat/example_doc.qmd")
+    readLines("qmds/simple_doc.qmd")
   )
 
 })

@@ -39,7 +39,7 @@ We can parse it like so:
 
 ```r
 library(qmdparse)
-out <- parse_qmd("tests/testthat/example_doc.qmd")
+out <- parse_qmd("tests/testthat/qmds/simple_doc.qmd")
 out[["My First Real Section"]][["A Mere Subsection"]]$get_contents()
 #>  [1] ""                                            
 #>  [2] "While I merely am a subsection, I am mighty!"

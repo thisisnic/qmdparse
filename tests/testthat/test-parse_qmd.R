@@ -1,6 +1,6 @@
 test_that("parse_qmd creates correct objects", {
 
-  out <- parse_qmd("tests/testthat/example_doc.qmd")
+  out <- parse_qmd("qmds/simple_doc.qmd")
   expect_s3_class(out, "qmdparse_doc")
 
   expect_length(out$get_children(), 4)
@@ -26,7 +26,7 @@ test_that("parse_qmd creates correct objects", {
 })
 
 test_that("parse_qmd creates correct names", {
-  out <- parse_qmd("tests/testthat/example_doc.qmd")
+  out <- parse_qmd("qmds/simple_doc.qmd")
   expect_named(out, c("", "", "Overview", "My First Real Section"))
   expect_named(out[[1]], NULL)
   expect_named(out[[2]], NULL)
@@ -35,7 +35,7 @@ test_that("parse_qmd creates correct names", {
 })
 
 test_that("parse_qmd creates correct line numbers", {
-  out <- parse_qmd("tests/testthat/example_doc.qmd")
+  out <- parse_qmd("qmds/simple_doc.qmd")
 
   expect_equal(out$get_start(), 1)
   expect_equal(out$get_end(), 24)
