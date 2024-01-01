@@ -1,3 +1,7 @@
+<!-- badges: start -->
+  [![R-CMD-check](https://github.com/thisisnic/qmdparse/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/thisisnic/qmdparse/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
+
 # qmdparse
 
 A top-down recursive descent parser for qmd files.
