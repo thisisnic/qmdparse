@@ -23,6 +23,15 @@ qmdparse_obj <- R6Class(
     },
     get_name = function() {
       private$name
+    },
+    get_start = function() {
+      private$start
+    },
+    get_end = function() {
+      private$end
+    },
+    print = function(){
+      print_tree(self)
     }
   ),
   private = list(
@@ -58,6 +67,8 @@ qmdparse_doc <- R6Class(
       private$name <- basename(path)
       private$type <- get_doc_type(path)
       private$contents <- readLines(path)
+      private$start = 1
+      private$end = length(private$contents)
       private$set_children()
     },
     get_contents = function() {
@@ -146,7 +157,6 @@ qmdparse_yaml <- R6Class(
     initialize = function(start, end, contents) {
       super$initialize(start, end, contents)
       private$parsed_contents <- yaml::read_yaml(text = private$contents)
-      private$name <- private$parsed_contents[["title"]]
     }
   ),
   private = list(
