@@ -145,12 +145,3 @@ qmdparse_text <- R6Class(
   inherit = qmdparse_obj,
   public = list()
 )
-
-new_section <- function(type, start, end, contents) {
-  switch(type,
-    "code" = qmdparse_code$new(start, end, contents),
-    "yaml" = qmdparse_yaml$new(start, end, contents),
-    "heading" = qmdparse_heading$new(start, end, contents),
-    "paragraph" = qmdparse_paragraph$new(start, end, contents)
-  )
-}

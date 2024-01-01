@@ -5,6 +5,7 @@ chars <- list(
   "j" = "\u251C"
 )
 
+
 print_tree <- function(obj, symbol = "", level = 0) {
   indent_level <- 2
   indent_char <- paste(rep("  ", indent_level * level), collapse = "")
@@ -61,7 +62,7 @@ print_tree <- function(obj, symbol = "", level = 0) {
 }
 
 has_children <- function(obj) {
-  !is.null(obj$get_children())
+  length(obj$get_children()) > 0
 }
 
 is_named_section <- function(obj) {
