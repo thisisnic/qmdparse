@@ -1,19 +1,21 @@
-#' Map a function to a qmd doc at a particular level
+#' Map a function to particular sections of a qmd doc
 #'
 #' @param .path Path to qmd doc
 #' @param .f Function to map
 #' @param ... Additional arguments to pass to function
-#' @param level Level to map function to
+#' @param .type Type of section to map to
 #'
 #' @examples
-#' qmd_map("tests/testthat/example_doc.qmd", stringi::str_count_words, .level = 1)
-qmd_map <- function(.path, .f, ..., .level = 0, .attribute = "cleaned_contents"){
+#' qmd_map("tests/testthat/example_doc.qmd", stringi::str_count_words, .type = "text")
+qmd_map <- function(.path, .f, ..., .type = "text"){
   parsed_doc <- parse_qmd(path)
 
   targets <- list()
-  # extract the items at the correct level
+  # extract the items of the correct type
 
 
   purrr::map(targets, .f, ...)
 
 }
+
+#TODO: decide if we want this or just level stuff actually

@@ -5,7 +5,7 @@ chars <- list(
   "j" = "\u251C"
 )
 
-print_tree <- function(obj, symbol = ".", level = 0) {
+print_tree <- function(obj, symbol = "", level = 0) {
   indent_level <- 2
   indent_char <- paste(rep("  ", indent_level * level), collapse = "")
 

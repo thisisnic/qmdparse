@@ -41,6 +41,11 @@ qmdparse_obj <- R6Class(
 }
 
 #' @export
+`[.qmdparse_obj` <- function(x, i) {
+  x$get_children()[i]
+}
+
+#' @export
 names.qmdparse_obj <- function(x) {
   names(x$get_children())
 }
@@ -85,19 +90,19 @@ qmdparse_heading <- R6Class(
   inherit = qmdparse_obj,
   public = list(
     initialize = function(start, end, contents, level) {
-      private$level = level
+      private$level <- level
       super$initialize(start, end, contents)
       private$set_name()
       private$set_children()
     },
-    get_level = function(){
+    get_level = function() {
       private$level
     }
   ),
   private = list(
     level = NULL,
     name = NA,
-    set_name = function(){
+    set_name = function() {
       regex <- paste0("^#{", private$level, "} ", collapse = "")
       private$name <- gsub(regex, "", private$contents[1])
       private$contents <- private$contents[2:length(private$contents)]
@@ -107,7 +112,6 @@ qmdparse_heading <- R6Class(
     }
   )
 )
-
 
 qmdparse_paragraph <- R6Class(
   "qmdparse_paragraph",

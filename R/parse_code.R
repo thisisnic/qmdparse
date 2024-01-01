@@ -5,5 +5,3 @@ parse_qmd <- function(file){
   parsed_doc
 }
 
-
-
