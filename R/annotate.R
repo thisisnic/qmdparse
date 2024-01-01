@@ -6,19 +6,19 @@ parse_contents <- function(file_contents, offset = 0) {
   code_context <- FALSE
   yaml_context <- FALSE
   text_context <- FALSE
-  heading_context <- FALSE
+  section_context <- FALSE
 
   children <- list()
   current_context_start <- 1
-  current_heading_level <- 0
+  current_section_level <- 0
 
   for (i in seq_along(file_contents)) {
     line <- file_contents[i]
 
     prev_text_context <- text_context
-    prev_heading_context <- heading_context
+    prev_section_context <- section_context
     prev_context_start <- current_context_start
-    prev_heading_level <- current_heading_level
+    prev_section_level <- current_section_level
 
     # create relevant object for yaml context
     if (detect_yaml_context(line) && !yaml_context) {
@@ -37,28 +37,28 @@ parse_contents <- function(file_contents, offset = 0) {
       current_context_start <- i + 1
     } else if (yaml_context) {
       next
-      # create relevant object for heading context
-    } else if (detect_heading_context(line)) {
+      # create relevant object for section context
+    } else if (detect_heading(line)) {
       text_context <- FALSE
-      heading_context <- TRUE
-      new_heading_level <- detect_heading_level(line)
+      section_context <- TRUE
+      new_section_level <- detect_heading_level(line)
       # if we have a new heading, create an object for the previous one
-      if (new_heading_level == current_heading_level) {
+      if (new_section_level == current_section_level) {
         children <- append(
           children,
-          qmdparse_heading$new(
+          qmdparse_section$new(
             prev_context_start + offset,
             i - 1 + offset,
-            file_contents[prev_context_start:(i- 1)], prev_heading_level
+            file_contents[prev_context_start:(i- 1)], prev_section_level
           )
         )
         current_context_start <- i
       }
-      if (prev_heading_level == 0 && new_heading_level > 0) {
-        current_heading_level <- new_heading_level
+      if (prev_section_level == 0 && new_section_level > 0) {
+        current_section_level <- new_section_level
       }
       # create relevant object for code context
-    } else if (heading_context) {
+    } else if (section_context) {
       next
     } else if (detect_code_context(line) && !code_context) {
       code_context <- TRUE
@@ -95,14 +95,14 @@ parse_contents <- function(file_contents, offset = 0) {
   }
 
   # if we still have a chunk open, close it
-  if (heading_context && i == length(file_contents)) {
+  if (section_context && i == length(file_contents)) {
     children <- append(
       children,
-      qmdparse_heading$new(
+      qmdparse_section$new(
         prev_context_start + offset,
         i + offset,
         file_contents[prev_context_start:i],
-        prev_heading_level
+        prev_section_level
       )
     )
   } else if (text_context && i == length(file_contents)) {
@@ -131,7 +131,7 @@ detect_code_context <- function(line) {
   grepl("^```", line)
 }
 
-detect_heading_context <- function(line) {
+detect_heading <- function(line) {
   grepl("^#{1,6} ", line)
 }
 

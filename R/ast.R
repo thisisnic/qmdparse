@@ -16,7 +16,7 @@ print_tree <- function(obj, symbol = "", level = 0) {
     cat(obj$get_name(), fill = TRUE)
   }
 
-  if (inherits(obj, "qmdparse_heading")) {
+  if (inherits(obj, "qmdparse_section")) {
     cat(indent_char)
     cat(symbol)
     cat("h")
