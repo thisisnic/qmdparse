@@ -1,3 +1,9 @@
+#' @export
+parse_qmd <- function(file){
+  parsed_doc <- qmdparse_doc$new(file)
+  parsed_doc
+}
+
 #' Annotate top level sections
 #'
 #' @param file_contents vector of file contents
@@ -87,7 +93,7 @@ parse_contents <- function(file_contents, offset = 0) {
         qmdparse_text$new(
           prev_context_start + offset,
           i - 1 + offset,
-          file_contents[prev_context_start:i - 1]
+          file_contents[prev_context_start:(i - 1)]
         )
       )
       current_context_start <- i
