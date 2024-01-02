@@ -128,20 +128,3 @@ parse_contents <- function(file_contents, offset = 0) {
   names(children) <- names
   children
 }
-
-detect_yaml_context <- function(line) {
-  grepl("^---", line)
-}
-
-detect_code_context <- function(line) {
-  grepl("^```", line)
-}
-
-detect_heading <- function(line) {
-  grepl("^#{1,6} ", line)
-}
-
-detect_heading_level <- function(line) {
-  out <- regexpr("^#{1,6} ", line)
-  attr(out, "match.length") - 1
-}
