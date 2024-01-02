@@ -31,7 +31,7 @@ qmdparse_obj <- R6Class(
       private$end
     },
     print = function(){
-      print_tree(self)
+      print(self$get_contents())
     }
   ),
   private = list(
