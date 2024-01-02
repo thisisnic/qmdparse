@@ -1,0 +1,19 @@
+---
+title: "my document"
+format: html
+editor: source
+---
+
+# Overview
+
+Sometimes lists can contain code! 
+
+I'm a list:
+
+* Here's a standard item
+* Here's some `inline code` in my second item
+* Here's an item containing a code chunk
+  ```
+  sum(mtcars$hp)
+  ```
+* My final item doesn't contain code
