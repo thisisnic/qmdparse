@@ -4,7 +4,7 @@
 \name{qmdparse-package}
 \alias{qmdparse}
 \alias{qmdparse-package}
-\title{qmdparse: A simple package to parse qmd files.}
+\title{qmdparse: A simple package to parse qmd files}
 \description{
 Parses `.qmd` files as simply as possible.
 }

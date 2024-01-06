@@ -1,3 +1,6 @@
+#' Parse a QMD document
+#'
+#' @param file path to file
 #' @export
 parse_qmd <- function(file){
   parsed_doc <- qmdparse_doc$new(file)
@@ -7,6 +10,7 @@ parse_qmd <- function(file){
 #' Annotate top level sections
 #'
 #' @param file_contents vector of file contents
+#' @param offset offset of where this section starts
 #' @return vector of annotations ("code", "yaml", or "text")
 parse_contents <- function(file_contents, offset = 0) {
   code_context <- FALSE
