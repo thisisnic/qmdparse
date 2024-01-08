@@ -6,8 +6,13 @@ detect_code_context <- function(line) {
   grepl("^```", line)
 }
 
-detect_heading <- function(line) {
+detect_section_context <- function(line) {
   grepl("^#{1,6} ", line)
+}
+
+detect_heading <- function(line, level) {
+  regex <- paste0("^#{", level, "} ")
+  grepl(regex, line)
 }
 
 detect_heading_level <- function(line) {
