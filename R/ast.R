@@ -28,20 +28,20 @@ print_tree <- function(obj, symbol = "", level = 0) {
   if (inherits(obj, "qmdparse_yaml")) {
     cat(indent_char)
     cat(symbol)
-    cat("yaml section: ")
+    cat("yaml")
     cat(obj$get_name(), fill = TRUE)
   }
 
   if (inherits(obj, "qmdparse_code")) {
     cat(indent_char)
     cat(symbol)
-    cat("code!", fill = TRUE)
+    cat("code", fill = TRUE)
   }
 
-  if (inherits(obj, "qmdparse_text")) {
+  if (inherits(obj, "qmdparse_text") && !all(obj$get_contents() == "")) {
     cat(indent_char)
     cat(symbol)
-    cat("text!", fill = TRUE)
+    cat("markdown", fill = TRUE)
   }
 
   to_parse <- obj$get_children()

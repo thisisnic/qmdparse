@@ -5,15 +5,15 @@ test_that("print_tree prints tree correctly", {
     printed_tree,
     c(
     "simple_doc.qmd",
-    "    ├──yaml section: ",
-    "    ├──text!",
+    "    ├──yaml",
+    "    ├──markdown",
     "    ├──h1: Overview",
-    "        └──text!",
+    "        └──markdown",
     "    └──h1: My First Real Section",
-    "        ├──text!",
+    "        ├──markdown",
     "        └──h2: A Mere Subsection",
-    "            ├──text!",
-    "            └──code!"
+    "            ├──markdown",
+    "            └──code"
     )
   )
 })
