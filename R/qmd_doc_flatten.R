@@ -10,3 +10,26 @@ qmd_doc_flatten <- function(x){
   }
   components
 }
+
+#' @export
+as.data.frame.qmdparse_doc <- function(qmd_doc){
+  flattened <- qmd_doc_flatten(out)
+  df <- data.frame()
+
+  level = 0
+  for(item in flattened){
+    if(inherits(item, "qmdparse_heading")){
+      level = detect_heading_level(item$get_contents())
+    }
+
+    df <- rbind(
+      df,
+      data.frame(
+        type = gsub("qmdparse_", "", class(item)[[1]]),
+        level = level,
+        contents = item$get_contents()
+      )
+    )
+  }
+  df
+}

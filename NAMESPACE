@@ -2,6 +2,7 @@
 
 S3method("[",qmdparse_obj)
 S3method("[[",qmdparse_obj)
+S3method(as.data.frame,qmdparse_doc)
 S3method(names,qmdparse_obj)
 export(parse_qmd)
 importFrom(R6,R6Class)
