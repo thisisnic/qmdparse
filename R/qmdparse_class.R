@@ -120,13 +120,12 @@ qmdparse_section <- R6Class(
     },
     set_children = function() {
       if(self$has_heading()) {
-
         private$children <- c(
           qmdparse_heading$new(start = private$start, end = private$start, contents = private$contents[1]),
-          scan_file_contents(private$contents[2:length(private$contents)], level = private$level + 1)
+          scan_file_contents(private$contents[2:length(private$contents)], level = private$level)
         )
       } else {
-        private$children <- scan_file_contents(private$contents, level = private$level + 1, offset = private$start - 1)
+        private$children <- scan_file_contents(private$contents, level = private$level, offset = private$start - 1)
       }
 
     }

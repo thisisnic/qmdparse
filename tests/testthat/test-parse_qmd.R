@@ -9,6 +9,8 @@ test_that("parse_qmd creates correct objects", {
   expect_s3_class(out[[3]], "qmdparse_section")
   expect_s3_class(out[[4]], "qmdparse_section")
 
+  expect_length(out[[2]]$get_children(), 0)
+
   expect_length(out[[3]]$get_children(), 2)
   expect_s3_class(out[[3]][[1]], "qmdparse_heading")
   expect_s3_class(out[[3]][[2]], "qmdparse_text")
