@@ -46,6 +46,11 @@ print_tree <- function(obj, symbol = "", level = 0) {
 
   to_parse <- obj$get_children()
 
+  # Don't print any whitespace elements
+  if(!is.null(to_parse) && length(to_parse) > 0 && all(to_parse[[length(to_parse)]]$get_contents() == "")){
+    to_parse <- to_parse[1:(length(to_parse) - 1)]
+  }
+
   level <- level + 1
 
   for (i in seq_along(to_parse)) {
