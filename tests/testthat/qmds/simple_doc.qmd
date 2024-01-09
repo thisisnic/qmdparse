@@ -4,16 +4,15 @@ format: html
 editor: source
 ---
 
-# Overview
+Here is a floating bit of text. It is not in a section.
 
+# Overview
 In this document, I will talk about very little of meaning or merit.
 
 # My First Real Section
-
 This is where I tell you my grand idea!
 
 ## A Mere Subsection
-
 While I merely am a subsection, I am mighty!
 I contain code and everything!
 
@@ -22,3 +21,4 @@ I contain code and everything!
 #| eval: TRUE
 mean(mtcars$mpg)
 ```
+

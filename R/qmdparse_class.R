@@ -28,9 +28,6 @@ qmdparse_obj <- R6Class(
     },
     get_end = function() {
       private$end
-    },
-    print = function(){
-      print(self$get_contents())
     }
   ),
   private = list(
@@ -78,7 +75,7 @@ qmdparse_doc <- R6Class(
     path = NULL,
     type = NULL,
     set_children = function() {
-      private$children <- parse_contents(private$contents)
+      private$children <- scan_file_contents(private$contents, level = 0, offset = 0)
     }
   )
 )
@@ -122,15 +119,13 @@ qmdparse_section <- R6Class(
       private$name <- gsub(regex, "", private$contents[1])
     },
     set_children = function() {
-
       if(self$has_heading()) {
-
         private$children <- c(
           qmdparse_heading$new(start = private$start, end = private$start, contents = private$contents[1]),
-          parse_contents(private$contents[2:length(private$contents)], offset = private$start)
+          scan_file_contents(private$contents[2:length(private$contents)], level = private$level, offset = private$start)
         )
       } else {
-        private$children <- parse_contents(private$contents, offset = private$start)
+        private$children <- scan_file_contents(private$contents, level = private$level, offset = private$start - 1)
       }
 
     }
@@ -146,7 +141,15 @@ qmdparse_paragraph <- R6Class(
 qmdparse_code <- R6Class(
   "qmdparse_code",
   inherit = qmdparse_obj,
-  public = list()
+  public = list(
+    initialize = function(start, end, contents) {
+      super$initialize(start, end, contents)
+      private$parsed_contents <- parse_code(private$contents)
+    }
+  ),
+  private = list(
+    parsed_contents = NULL
+  )
 )
 
 qmdparse_yaml <- R6Class(
