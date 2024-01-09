@@ -38,7 +38,7 @@ print_tree <- function(obj, symbol = "", level = 0) {
     cat("code", fill = TRUE)
   }
 
-  if (inherits(obj, "qmdparse_text") && !all(obj$get_contents() == "")) {
+  if (inherits(obj, "qmdparse_text")) {
     cat(indent_char)
     cat(symbol)
     cat("markdown", fill = TRUE)
