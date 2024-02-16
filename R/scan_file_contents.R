@@ -15,6 +15,7 @@ scan_file_contents <- function(file_contents, level, offset) {
   # while we still have file to scan
   while (scanned_max < length(file_contents)) {
     current_scan <- scanned_max + 1
+
     # scan the next line
     line <- file_contents[current_scan]
 
