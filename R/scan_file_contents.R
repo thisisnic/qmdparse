@@ -2,6 +2,7 @@
 #'
 #' @param file_contents vector of file contents
 #' @param offset offset of where this section starts
+#' @param level depth within doc
 #' @return vector of annotations ("code", "yaml", or "text")
 scan_file_contents <- function(file_contents, level, offset) {
   # container for items we find

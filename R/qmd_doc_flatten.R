@@ -12,8 +12,8 @@ qmd_doc_flatten <- function(x){
 }
 
 #' @export
-as.data.frame.qmdparse_doc <- function(qmd_doc){
-  flattened <- qmd_doc_flatten(out)
+as.data.frame.qmdparse_doc <- function(x, ...){
+  flattened <- qmd_doc_flatten(x)
   df <- data.frame()
 
   level = 0
