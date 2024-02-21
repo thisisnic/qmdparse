@@ -20,5 +20,4 @@ test_that("qmd_doc_flatten output roundtrip", {
     unlist(qmd_doc_components),
     readLines("qmds/simple_doc.qmd", )
   )
-
 })

@@ -63,8 +63,8 @@ qmdparse_doc <- R6Class(
       private$name <- basename(path)
       private$type <- get_doc_type(path)
       private$contents <- readLines(path)
-      private$start = 1
-      private$end = length(private$contents)
+      private$start <- 1
+      private$end <- length(private$contents)
       private$set_children()
     },
     get_contents = function() {
@@ -98,7 +98,7 @@ qmdparse_section <- R6Class(
     initialize = function(start, end, contents, level) {
       private$level <- level
       super$initialize(start, end, contents)
-      if(self$has_heading()) {
+      if (self$has_heading()) {
         private$set_name()
       }
       private$set_children()
@@ -119,7 +119,7 @@ qmdparse_section <- R6Class(
       private$name <- gsub(regex, "", private$contents[1])
     },
     set_children = function() {
-      if(self$has_heading()) {
+      if (self$has_heading()) {
         private$children <- c(
           qmdparse_heading$new(start = private$start, end = private$start, contents = private$contents[1]),
           scan_file_contents(private$contents[2:length(private$contents)], level = private$level, offset = private$start)
@@ -127,7 +127,6 @@ qmdparse_section <- R6Class(
       } else {
         private$children <- scan_file_contents(private$contents, level = private$level, offset = private$start - 1)
       }
-
     }
   )
 )
