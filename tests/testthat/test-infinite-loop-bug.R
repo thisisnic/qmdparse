@@ -34,6 +34,3 @@ This is where I tell you my grand idea!
 
 })
 
-
-
-
