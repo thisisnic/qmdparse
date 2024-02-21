@@ -1,5 +1,4 @@
 test_that("parse_qmd creates correct objects", {
-
   out <- parse_qmd("qmds/simple_doc.qmd")
   expect_s3_class(out, "qmdparse_doc")
 
@@ -27,7 +26,6 @@ test_that("parse_qmd creates correct objects", {
   expect_s3_class(out[[4]][[3]][[2]], "qmdparse_text")
   expect_s3_class(out[[4]][[3]][[3]], "qmdparse_code")
   expect_s3_class(out[[4]][[3]][[4]], "qmdparse_text")
-
 })
 
 test_that("parse_qmd creates correct names", {
@@ -79,5 +77,4 @@ test_that("parse_qmd creates correct line numbers", {
 
   expect_equal(out[[4]][[3]][[3]]$get_start(), 19)
   expect_equal(out[[4]][[3]][[3]]$get_end(), 23)
-
 })

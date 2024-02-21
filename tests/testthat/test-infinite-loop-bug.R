@@ -1,5 +1,4 @@
 test_that("non-terminated code chunks raise error", {
-
   tf <- tempfile(fileext = ".qmd")
 
   invalid_doc <- '
@@ -31,6 +30,4 @@ This is where I tell you my grand idea!
     qmdparse::parse_qmd(tf),
     regexp = "terminator not found"
   )
-
 })
-

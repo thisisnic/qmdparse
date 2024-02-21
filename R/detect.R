@@ -20,6 +20,6 @@ detect_heading_level <- function(line) {
   attr(out, "match.length") - 1
 }
 
-detect_list_context <- function(line, prev_line){
+detect_list_context <- function(line, prev_line) {
   (prev_line == "") && grepl("^ *\\* ", line)
 }
