@@ -28,6 +28,9 @@ qmdparse_obj <- R6Class(
     },
     get_end = function() {
       private$end
+    },
+    print = function(){
+      cat(self$get_contents(), sep = "\n")
     }
   ),
   private = list(
