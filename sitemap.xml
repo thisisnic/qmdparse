@@ -16,10 +16,16 @@
     <loc>/index.html</loc>
   </url>
   <url>
+    <loc>/reference/extract_code.html</loc>
+  </url>
+  <url>
     <loc>/reference/index.html</loc>
   </url>
   <url>
     <loc>/reference/parse_qmd.html</loc>
+  </url>
+  <url>
+    <loc>/reference/print_tree.html</loc>
   </url>
   <url>
     <loc>/reference/qmdparse-package.html</loc>

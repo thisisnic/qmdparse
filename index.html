@@ -83,29 +83,48 @@ mean(mtcars$mpg)
 <p>We can parse it like so:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">qmdparse</span><span class="op">)</span></span>
-<span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/parse_qmd.html">parse_qmd</a></span><span class="op">(</span><span class="st">"tests/testthat/qmds/simple_doc.qmd"</span><span class="op">)</span></span>
-<span><span class="va">out</span><span class="op">[[</span><span class="st">"My First Real Section"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"A Mere Subsection"</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="fu">get_contents</span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt;  [1] ""                                            </span></span>
-<span><span class="co">#&gt;  [2] "While I merely am a subsection, I am mighty!"</span></span>
-<span><span class="co">#&gt;  [3] "I contain code and everything!"              </span></span>
-<span><span class="co">#&gt;  [4] ""                                            </span></span>
-<span><span class="co">#&gt;  [5] "```{r}"                                      </span></span>
-<span><span class="co">#&gt;  [6] "#| label: my_code"                           </span></span>
-<span><span class="co">#&gt;  [7] "#| eval: TRUE"                               </span></span>
-<span><span class="co">#&gt;  [8] "mean(mtcars$mpg)"                            </span></span>
-<span><span class="co">#&gt;  [9] "```"                                         </span></span>
-<span><span class="co">#&gt; [10] "" </span></span>
-<span><span class="fu">print_tree</span><span class="op">(</span><span class="va">out</span><span class="op">)</span></span>
-<span><span class="co">#&gt; .example_doc.qmd</span></span>
-<span><span class="co">#&gt;     ├──yaml section: my document</span></span>
-<span><span class="co">#&gt;     ├──text!</span></span>
+<span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/parse_qmd.html">parse_qmd</a></span><span class="op">(</span><span class="st">"/home/nic/qmdparse/tests/testthat/qmds/simple_doc.qmd"</span><span class="op">)</span></span>
+<span><span class="va">out</span><span class="op">[[</span><span class="st">"My First Real Section"</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">"A Mere Subsection"</span><span class="op">]</span><span class="op">]</span></span>
+<span><span class="co">#&gt; ## A Mere Subsection</span></span>
+<span><span class="co">#&gt; While I merely am a subsection, I am mighty!</span></span>
+<span><span class="co">#&gt; I contain code and everything!</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ```{r}</span></span>
+<span><span class="co">#&gt; #| label: my_code</span></span>
+<span><span class="co">#&gt; #| eval: TRUE</span></span>
+<span><span class="co">#&gt; mean(mtcars$mpg)</span></span>
+<span><span class="co">#&gt; ```</span></span>
+<span><span class="fu"><a href="reference/extract_code.html">extract_code</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [[1]]</span></span>
+<span><span class="co">#&gt; ```{r}</span></span>
+<span><span class="co">#&gt; #| label: my_code</span></span>
+<span><span class="co">#&gt; #| eval: TRUE</span></span>
+<span><span class="co">#&gt; mean(mtcars$mpg)</span></span>
+<span><span class="co">#&gt; ```</span></span>
+<span><span class="fu"><a href="reference/print_tree.html">print_tree</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span></span>
+<span><span class="co">#&gt; simple_doc.qmd</span></span>
+<span><span class="co">#&gt;     ├──yaml</span></span>
+<span><span class="co">#&gt;     ├──markdown</span></span>
 <span><span class="co">#&gt;     ├──h1: Overview</span></span>
-<span><span class="co">#&gt;         └──text!</span></span>
+<span><span class="co">#&gt;         └──markdown</span></span>
 <span><span class="co">#&gt;     └──h1: My First Real Section</span></span>
-<span><span class="co">#&gt;         ├──text!</span></span>
+<span><span class="co">#&gt;         ├──markdown</span></span>
 <span><span class="co">#&gt;         └──h2: A Mere Subsection</span></span>
-<span><span class="co">#&gt;             ├──text!</span></span>
-<span><span class="co">#&gt;             └──code!</span></span></code></pre></div>
+<span><span class="co">#&gt;             ├──markdown</span></span>
+<span><span class="co">#&gt;             └──code</span></span></code></pre></div>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p>You can install the latest version of qmdparse from <a href="https://github.com/thisisnic/qmdparse" class="external-link">github</a> with:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/" class="external-link">devtools</a></span><span class="op">)</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"thisisnic/qmdparse"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="similar-work">Similar work<a class="anchor" aria-label="anchor" href="#similar-work"></a>
+</h2>
+<p>Check out <a href="https://github.com/rundel/parsermd" class="external-link">parsermd</a> for a <code>.rmd</code> parser based on C++ libraries or <a href="https://github.com/ThinkR-open/lightparser/" class="external-link">lightparser</a> for a <code>.rmd</code> and <code>.qmd</code> parser based on knitr.</p>
+</div>
 </div>
 
   </main><aside class="col-md-3"><div class="license">
