@@ -64,3 +64,15 @@ print_tree(out)
 #>             └──code!
 ```
 
+## Installation
+
+You can install the latest version of qmdparse from [github](https://github.com/thisisnic/qmdparse) with:
+
+```r
+library(devtools)
+devtools::install_github("thisisnic/qmdparse")
+```
+
+## Similar work
+
+Check out [parsermd](https://github.com/rundel/parsermd) for a `.rmd` parser based on C++ libraries or [lightparser](https://github.com/ThinkR-open/lightparser/) for a `.rmd` and `.qmd` parser based on knitr.
