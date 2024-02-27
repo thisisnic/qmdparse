@@ -19,7 +19,7 @@ scan_code <- function(file_contents, offset) {
   # create a new code object
   qmdparse_code$new(
     offset,
-    code_end + offset,
+    code_end + (offset - 1),
     file_contents[1:code_end]
   )
 }
