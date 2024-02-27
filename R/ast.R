@@ -5,6 +5,12 @@ chars <- list(
   "j" = "\u251C"
 )
 
+#' @title Print a tree of the parsed document
+#' @description This function prints a tree of the parsed document to the console.
+#' @param obj The parsed document
+#' @param symbol The symbol to use for the current node
+#' @param level The current level of the tree
+#'
 #' @export
 print_tree <- function(obj, symbol = "", level = 0) {
   indent_level <- 2
