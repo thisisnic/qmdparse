@@ -32,7 +32,7 @@ scan_file_contents <- function(file_contents, level, offset) {
 
       # if we detect code, create a new code context
     } else if (detect_code_context(line)) {
-      code_context <- scan_code(file_contents, code_start = current_scan, offset)
+      code_context <- scan_code(file_contents[current_scan:length(file_contents)], offset + current_scan)
       children <- append(children, code_context)
       scanned_max <- code_context$get_end() - offset
 
