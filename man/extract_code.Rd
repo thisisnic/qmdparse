@@ -7,7 +7,7 @@
 extract_code(x)
 }
 \arguments{
-\item{x}{qmdparse_doc object}
+\item{x}{qmdparse_object object}
 }
 \description{
 Extract all code from a parsed Quarto markdown doc

@@ -37,31 +37,37 @@ mean(mtcars$mpg)
 
 We can parse it like so:
 
-```r
+``` r
 library(qmdparse)
-out <- parse_qmd("tests/testthat/qmds/simple_doc.qmd")
-out[["My First Real Section"]][["A Mere Subsection"]]$get_contents()
-#>  [1] ""                                            
-#>  [2] "While I merely am a subsection, I am mighty!"
-#>  [3] "I contain code and everything!"              
-#>  [4] ""                                            
-#>  [5] "```{r}"                                      
-#>  [6] "#| label: my_code"                           
-#>  [7] "#| eval: TRUE"                               
-#>  [8] "mean(mtcars$mpg)"                            
-#>  [9] "```"                                         
-#> [10] "" 
+out <- parse_qmd("/home/nic/qmdparse/tests/testthat/qmds/simple_doc.qmd")
+out[["My First Real Section"]][["A Mere Subsection"]]
+#> ## A Mere Subsection
+#> While I merely am a subsection, I am mighty!
+#> I contain code and everything!
+#> 
+#> ```{r}
+#> #| label: my_code
+#> #| eval: TRUE
+#> mean(mtcars$mpg)
+#> ```
+extract_code(out)
+#> [[1]]
+#> ```{r}
+#> #| label: my_code
+#> #| eval: TRUE
+#> mean(mtcars$mpg)
+#> ```
 print_tree(out)
-#> .example_doc.qmd
-#>     ├──yaml section: my document
-#>     ├──text!
+#> simple_doc.qmd
+#>     ├──yaml
+#>     ├──markdown
 #>     ├──h1: Overview
-#>         └──text!
+#>         └──markdown
 #>     └──h1: My First Real Section
-#>         ├──text!
+#>         ├──markdown
 #>         └──h2: A Mere Subsection
-#>             ├──text!
-#>             └──code!
+#>             ├──markdown
+#>             └──code
 ```
 
 ## Installation
