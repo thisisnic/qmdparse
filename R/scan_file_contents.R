@@ -44,9 +44,14 @@ scan_file_contents <- function(file_contents, level, offset) {
     }
   }
 
-  names <- lapply(children, function(x) {
+  apply_names(children)
+}
+
+# Apply the name attributes to a list of qmdparse objects
+apply_names <- function(objs){
+  names <- lapply(objs, function(x) {
     x$get_name()
   })
-  names(children) <- names
-  children
+  names(objs) <- names
+  objs
 }
