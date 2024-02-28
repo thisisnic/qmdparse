@@ -19,7 +19,19 @@
     <loc>/reference/extract_code.html</loc>
   </url>
   <url>
+    <loc>/reference/extract_headings.html</loc>
+  </url>
+  <url>
     <loc>/reference/extract_named.html</loc>
+  </url>
+  <url>
+    <loc>/reference/extract_text.html</loc>
+  </url>
+  <url>
+    <loc>/reference/extract_type.html</loc>
+  </url>
+  <url>
+    <loc>/reference/extract_yaml.html</loc>
   </url>
   <url>
     <loc>/reference/index.html</loc>
