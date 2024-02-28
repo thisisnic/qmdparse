@@ -75,6 +75,17 @@ extract_named(out, "A Mere Subsection")
 #> mean(mtcars$mpg)
 #> ```
 
+# Extract all headings
+extract_headings(out)
+#> [[1]]
+#> # Overview
+#> 
+#> [[2]]
+#> # My First Real Section
+#> 
+#> [[3]]
+#> ## A Mere Subsection
+
 # Print the AST of the document
 print_tree(out)
 #> simple_doc.qmd
