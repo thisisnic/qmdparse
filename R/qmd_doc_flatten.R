@@ -1,14 +1,20 @@
-qmd_doc_flatten <- function(x) {
+qmd_doc_flatten <- function(x, keep_parents = FALSE) {
   components <- list()
-  to_parse <- x$get_children()
+
+  if(keep_parents){
+    components <- append(components, x)
+  }
+
   for (child in x$get_children()) {
+
     if (!has_children(child)) {
       components <- append(components, child)
     } else {
-      components <- append(components, qmd_doc_flatten(child))
+      components <- append(components, qmd_doc_flatten(child, keep_parents = keep_parents))
     }
+
   }
-  components
+  apply_names(components)
 }
 
 #' @export

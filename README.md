@@ -40,6 +40,8 @@ We can parse it like so:
 ``` r
 library(qmdparse)
 out <- parse_qmd("/home/nic/qmdparse/tests/testthat/qmds/simple_doc.qmd")
+
+# Refer to sections of the document as nested lists
 out[["My First Real Section"]][["A Mere Subsection"]]
 #> ## A Mere Subsection
 #> While I merely am a subsection, I am mighty!
@@ -50,6 +52,8 @@ out[["My First Real Section"]][["A Mere Subsection"]]
 #> #| eval: TRUE
 #> mean(mtcars$mpg)
 #> ```
+
+# Extract all code chunks
 extract_code(out)
 #> [[1]]
 #> ```{r}
@@ -57,6 +61,21 @@ extract_code(out)
 #> #| eval: TRUE
 #> mean(mtcars$mpg)
 #> ```
+
+# Extract a section based on its name
+extract_named(out, "A Mere Subsection")
+#> $`A Mere Subsection`
+#> ## A Mere Subsection
+#> While I merely am a subsection, I am mighty!
+#> I contain code and everything!
+#> 
+#> ```{r}
+#> #| label: my_code
+#> #| eval: TRUE
+#> mean(mtcars$mpg)
+#> ```
+
+# Print the AST of the document
 print_tree(out)
 #> simple_doc.qmd
 #>     ├──yaml

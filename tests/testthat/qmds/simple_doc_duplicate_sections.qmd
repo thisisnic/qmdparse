@@ -1,0 +1,29 @@
+---
+title: "my document"
+format: html
+editor: source
+---
+
+Here is a floating bit of text. It is not in a section.
+
+# Overview
+In this document, I will talk about very little of meaning or merit.
+
+# My First Real Section
+This is where I tell you my grand idea!
+
+## A Mere Subsection
+
+### Overview
+
+Here is an overview of this subsection!
+
+While I merely am a subsection, I am mighty!
+I contain code and everything!
+
+```{r}
+#| label: my_code
+#| eval: TRUE
+mean(mtcars$mpg)
+```
+
