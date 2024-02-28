@@ -4,10 +4,10 @@
 \alias{scan_contents}
 \title{Annotate top level sections}
 \usage{
-scan_contents(file_contents, level, offset)
+scan_contents(contents, level, offset)
 }
 \arguments{
-\item{file_contents}{vector of file contents}
+\item{contents}{vector of file contents}
 
 \item{level}{depth within doc}
 
