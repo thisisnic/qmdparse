@@ -78,7 +78,7 @@ qmdparse_doc <- R6Class(
     path = NULL,
     type = NULL,
     set_children = function() {
-      private$children <- scan_file_contents(private$contents, level = 0, offset = 0)
+      private$children <- scan_contents(private$contents, level = 0, offset = 0)
     }
   )
 )
@@ -125,10 +125,10 @@ qmdparse_section <- R6Class(
       if (self$has_heading()) {
         private$children <- c(
           qmdparse_heading$new(start = private$start, end = private$start, contents = private$contents[1]),
-          scan_file_contents(private$contents[2:length(private$contents)], level = private$level, offset = private$start)
+          scan_contents(private$contents[2:length(private$contents)], level = private$level, offset = private$start)
         )
       } else {
-        private$children <- scan_file_contents(private$contents, level = private$level, offset = private$start - 1)
+        private$children <- scan_contents(private$contents, level = private$level, offset = private$start - 1)
       }
     }
   )
