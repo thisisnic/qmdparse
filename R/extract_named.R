@@ -11,5 +11,5 @@ extract_named <- function(x, name){
 
   flat_x <- qmd_doc_flatten(x, keep_parents = TRUE)
 
-  flat_x[[which(names(flat_x) == name)]]
+  flat_x[names(flat_x) == name]
 }
